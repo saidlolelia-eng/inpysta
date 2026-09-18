@@ -14,7 +14,7 @@ How To Use
     4. add: 'Engine = MockEngineMain("MyEngine") # you can name it whatever
     5. Now, run anything you want.
     
-COMMANDS BASED OFF OF v1.0.2
+COMMANDS BASED OFF OF v1.0.3
 
 CreateUser(username, userage)   Creates a user with credentials.
 DeleteUser(username)            Deletes a user
@@ -57,7 +57,7 @@ print(engine.ViewUsers())
 # Authored by "Elijah J." 
 # NOTE Thanks for using inPySta
 
-_version = "Beta v1.0.2" # MAIN VERSION OF inPySta
+_version = "Beta v1.0.3" # MAIN VERSION OF inPySta
 
 class NotAValidUser(Exception): ... # Errors if someone is not a user
 class AlreadyFollowed(Exception): ... # Errors if someone is already followed
@@ -91,14 +91,14 @@ class UserProfileAccount: # Create the main User class
         self.followsCount = 0
         self.parentalUsername = parentalUsername
         
-        self.notAdult = True if userage < 18 else False
+        self.notAdult = True if self.userage < 18 else False
         if self.notAdult:
             print(f"You might want to set up a parental username for {self.username}")
             
         users.append(self)
                
     def _follow(self, usernameFollowing: str): # Follow this user
-        """Follow someone"""
+        """Make {usernameFollowing} follow this user"""
         target_clean = usernameFollowing.strip().lower()
             
         # Find the actual target user object in the database
@@ -113,26 +113,33 @@ class UserProfileAccount: # Create the main User class
                 _AlreadyFollowed()
                 return
                 
-            # Update current user's following list
+            # Update current user's following list (YOU follow THEM)
             self.follows.append(target_clean)
             self.followsCount += 1
                 
-            # Update the target user's followers list
+            # Update the target user's followers list (THEY gain YOU)
             target_user.followers.append(self.username.lower())
             target_user.followersCount += 1
-        else:
-            _NotAValidUser(usernameFollowing)
-            return
 
-            
+
     def _unfollow(self, usernameUnfollowing: str): # Unfollow this user
-        """Unfollow someone"""
+        """Make {usernameUnfollowing} unfollow this user"""
+        target_clean = usernameUnfollowing.strip().lower()
         
-        if usernameUnfollowing.lower() in self.followers:
-            self.followers.remove(usernameUnfollowing.lower())
-            self.followersCount -= 1
+        if target_clean in self.follows:
+            # You stop following them
+            self.follows.remove(target_clean)
+            self.followsCount -= 1
+            
+            # Find them in the database to remove you from their followers
+            for u in users:
+                if u.username.lower() == target_clean:
+                    if self.username.lower() in u.followers:
+                        u.followers.remove(self.username.lower())
+                        u.followersCount -= 1
+                    break
         else:
-            print(f"{usernameUnfollowing} is not in {self.username}'s followers")
+            print(f"You are not following {usernameUnfollowing}")
             return
         
     def __repr__(self):
@@ -203,7 +210,7 @@ class MockEngineMain:
 
         
         for i in users:
-            if i.username == username:
+            if i.username.lower() == username.lower():
                 print("**********************************")
                 print(f"Info about '{i.username}':")
                 print("**********************************")
