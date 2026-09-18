@@ -14,7 +14,7 @@ How To Use
     4. add: 'engine = InPyStaEngine("MyEngine") # you can name it whatever
     5. Now, run anything you want.
     
-COMMANDS BASED OFF OF v1.0.4
+COMMANDS BASED OFF OF v1.0.5
 
 CreateUser(username, userage)   Creates a user with credentials.
 DeleteUser(username)            Deletes a user
@@ -31,7 +31,7 @@ PrintInfo(username)             Prints info (e.g. Username, userage..) about the
 
 What is inPysta?
 inPySta is a Python library that simulates Instagram. You can follow, unfollow and much more.
-Since this is still v1.0.4, no posts have been added. Maybe in v5.0.0, we'll have posts.
+Since this is still v1.0.5, no posts have been added. Maybe in v5.0.0, we'll have posts.
 
 inPySta is just a project, made for fun. Not professional. Just a project you'd make at 3.00 AM, for
 no absolutely no reason. Here's some test code:
@@ -57,7 +57,7 @@ print(engine.ViewUsers())
 # Authored by "Elijah J." 
 # NOTE Thanks for using inPySta
 
-_version = "v1.0.4" # MAIN VERSION OF inPySta
+_version = "v1.0.5" # MAIN VERSION OF inPySta
 
 class NotAValidUser(Exception): ... # Errors if someone is not a user
 class AlreadyFollowed(Exception): ... # Errors if someone is already followed
@@ -213,11 +213,14 @@ class InPyStaEngine:
         """
         View all the usernames in the database
         
+        Args:
+            _print: If set to True, prints the users. If False, just returns users.
+        
         Returns:
             users: The main database holding all users
         """
         all_users = list(users.values())
-        if bool: print(all_users)
+        if _print: print(all_users)
         return all_users
     
     @staticmethod

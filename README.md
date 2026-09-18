@@ -1,10 +1,10 @@
-# 📸 InPySta (v1.0.4)
+# 📸 InPySta (v1.0.5)
 
 > A lightweight, highly custom Python library that simulates an Instagram database engine. Built for fun, experimentation, and mock backend practice!
 
 # Latest Update
 Made InPySta faster by using O(1) instead of O(n)! Added
-better explanations.
+better explanations. Added _print bool for ViewUsers()
 
 ---
 
@@ -33,7 +33,7 @@ Get your engine up and running in just a few lines of code:
 from inpysta import MockEngineMain
 
 # 1. Initialize the engine core
-engine = MockEngineMain("MyInstagramMock")
+engine = InPySta("App")
 
 # 2. Create profile accounts
 user1 = engine.CreateUser("coolboy10", 19)
@@ -47,14 +47,14 @@ engine.ViewUsers()
 
 ## 🕹️ Available API Commands
 
-### 🏗️ Engine Management (`MockEngineMain`)
+### 🏗️ Engine Management (`InPySta`)
 
 *   **`CreateUser(username: str, userage: int)`**  
     Registers a unique user profile inside the engine global database. Returns the account object configuration.
 *   **`DeleteUser(user_object)`**  
     Removes a registered profile reference clean out of the database array.
-*   **`ViewUsers()`**  
-    Outputs a structured list tracking all active profiles registered on the instance.
+*   **`ViewUsers(_print)`**  
+    Outputs a structured list tracking all active profiles registered on the instance. (_print prints the list)
 *   **`PrintInfo(username: str)`**  
     Displays a visually formatted card containing statistics, counts, age verification, and tracking lists for a specific username.
 *   **`EditInfo(username: str)`**  
