@@ -209,7 +209,7 @@ class InPyStaEngine:
             print(f"Something went wrong: {type(e).__name__}")
         
     @staticmethod
-    def ViewUsers() -> list:
+    def ViewUsers(_print:bool=None) -> list:
         """
         View all the usernames in the database
         
@@ -217,7 +217,7 @@ class InPyStaEngine:
             users: The main database holding all users
         """
         all_users = list(users.values())
-        print(all_users)
+        if bool: print(all_users)
         return all_users
     
     @staticmethod
