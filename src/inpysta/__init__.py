@@ -97,32 +97,32 @@ class UserProfileAccount: # Create the main User class
             
         users.append(self)
                
-        def _follow(self, usernameFollowing: str): # Follow this user
-            """Follow someone"""
-            target_clean = usernameFollowing.strip().lower()
+    def _follow(self, usernameFollowing: str): # Follow this user
+        """Follow someone"""
+        target_clean = usernameFollowing.strip().lower()
             
-            # Find the actual target user object in the database
-            target_user = None
-            for u in users:
-                if u.username.lower() == target_clean:
-                    target_user = u
-                    break
+        # Find the actual target user object in the database
+        target_user = None
+        for u in users:
+            if u.username.lower() == target_clean:
+                target_user = u
+                break
                     
-            if target_user: 
-                if target_clean in self.follows:
-                    _AlreadyFollowed()
-                    return
-                
-                # Update current user's following list
-                self.follows.append(target_clean)
-                self.followsCount += 1
-                
-                # Update the target user's followers list
-                target_user.followers.append(self.username.lower())
-                target_user.followersCount += 1
-            else:
-                _NotAValidUser(usernameFollowing)
+        if target_user: 
+            if target_clean in self.follows:
+                _AlreadyFollowed()
                 return
+                
+            # Update current user's following list
+            self.follows.append(target_clean)
+            self.followsCount += 1
+                
+            # Update the target user's followers list
+            target_user.followers.append(self.username.lower())
+            target_user.followersCount += 1
+        else:
+            _NotAValidUser(usernameFollowing)
+            return
 
             
     def _unfollow(self, usernameUnfollowing: str): # Unfollow this user
@@ -285,23 +285,8 @@ class MockEngineMain:
                     break
                 else:
                     _NotAValidUser(parentalUsername)
-            
-def main(): # Won't run if you're using the library
-    """
-    Testing the engine.
-    """
-
-    engine = MockEngineMain("Engine") # Create the main engine (you can have 2+ engines!)
-    
-    engine.CreateUser("test", 19) # Create a user named test with age 19
-    engine.CreateUser("admin", 5) # Create a user named admin with age 5
-    engine.ViewUsers() # view all users
-    engine.PrintInfo("admin") # Print the info of admin
-    engine.PrintInfo("test") # Print info of test
-    engine.SetParentalUser("admin") # Set a parent for admin (test)
-    engine.PrintInfo("admin") # print info about admin
     
 if __name__ == "__main__":
-    main()
+    print(f"Running inPySta {_version} as main")
 else:
     print(f"Running inPySta {_version}")
