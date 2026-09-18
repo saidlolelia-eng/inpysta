@@ -10,8 +10,8 @@ How To Use
 
     1. Open any Python file
     2. In the terminal, run: 'pip install inpysta'
-    3. In your code, add: 'from inpysta import MockEngineMain'
-    4. add: 'Engine = MockEngineMain("MyEngine") # you can name it whatever
+    3. In your code, add: 'from inpysta import InPyStaEngine'
+    4. add: 'engine = InPyStaEngine("MyEngine") # you can name it whatever
     5. Now, run anything you want.
     
 COMMANDS BASED OFF OF v1.0.4
@@ -36,9 +36,9 @@ Since this is still v1.0.4, no posts have been added. Maybe in v5.0.0, we'll hav
 inPySta is just a project, made for fun. Not professional. Just a project you'd make at 3.00 AM, for
 no absolutely no reason. Here's some test code:
 
-from pysta import MockEngineMain
+from pysta import InPyStaEngine
 
-engine = MockEngineMain("myEngine")
+engine = InPyStaEngine("myEngine")
 myUser = engine.CreateUser("myUser")
 
 This starts an engine, called myEngine. Then it creates a user called myUser, and
