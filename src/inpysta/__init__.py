@@ -121,9 +121,8 @@ class UserProfileAccount: # Create the main User class
             target_user.followers.append(self.username.lower())
             target_user.followersCount += 1
 
-
     def _unfollow(self, usernameUnfollowing: str): # Unfollow this user
-        """Make {usernameUnfollowing} unfollow this user"""
+        """Make this user stop following {usernameUnfollowing}"""
         target_clean = usernameUnfollowing.strip().lower()
         
         if target_clean in self.follows:
@@ -147,12 +146,28 @@ class UserProfileAccount: # Create the main User class
         return f"'{self.username}'"
 
 class MockEngineMain:
-    def __init__(self, engine):
-        self.engine = "Mock Engine" if engine is None else engine
+    """
+    The main engine. Set a title
+    """
+    def __init__(self, title: str):
+        self.engine = "Mock Engine" if title is None else title
         
     @staticmethod
     def CreateUser(username:str, userage: int | str, parentalUser=None):
-        """Create a new user and store it"""
+        """
+        Create a new user and store it
+        
+        Args:
+            username (str): The desired handle. Case-insensitive and must be unique.
+            userage (int): The age of the user. Automatically triggers parental warnings if under 18.
+
+        Returns:
+            UserProfileAccount: The instantiated user object if successful, None otherwise.
+
+        Raises:
+            NoInfoProvided: If username or userage parameters are missing.
+        """
+        
         if username.lower() in users:
             print(f"Registration Error: Username '{username}' is already taken.")
             return None
@@ -169,7 +184,17 @@ class MockEngineMain:
         
     @staticmethod
     def DeleteUser(user: UserProfileAccount):
-        """Remove a user from the database"""
+        """
+        Remove a user from the database
+        
+        Args:
+            user (UserProfileAccount): The desired account to delete
+            
+        Raises:
+            NoInfoProvided if no user was given
+            
+        """
+        
         if not user or user.username.lower() not in users:
             _NoInfoProvided("Valid user to delete was not provided.")
             return
@@ -181,14 +206,31 @@ class MockEngineMain:
         
     @staticmethod
     def ViewUsers() -> list:
-        """View all the usernames in the database"""
+        """
+        View all the usernames in the database
+        
+        Returns:
+            users: The main database holding all users
+        """
         all_users = list(users.values())
         print(all_users)
         return all_users
     
     @staticmethod
-    def PrintInfo(username):
-        """Prints info about the provided username"""
+    def PrintInfo(username: str):
+        """
+        Prints info about the provided username
+        
+        Args:
+            username (str): The username to get info about
+            
+        Raises:
+            NoInfoProvided if the username was not given
+            
+        Returns:
+            info: A string of info, just like the one printed
+        
+        """
         if username is None:
             _NoInfoProvided("Username not provided")
             return
@@ -197,6 +239,18 @@ class MockEngineMain:
         if not user:
             _NotAValidUser(username)
             return
+        
+        info = f"""
+            Username: {user.username}")
+            Age: {user.userage}")
+            Parental User: {f'Enabled (\'{user.parentalUsername}\')' if user.parentalUsername else 'Disabled'}")
+
+            Followers: {user.followers}")
+            Follow Count: {user.followersCount}")
+            Following: {user.follows}")
+            Following Count: {user.followsCount}")
+        """
+        
 
         print("**********************************")
         print(f"Info about '{user.username}':")
@@ -211,10 +265,20 @@ class MockEngineMain:
         print(f"    Following Count: {user.followsCount}")
         print("***********************************************")
         
+        return info
+        
     @staticmethod
     def EditInfo(username: str):
         """
         Edit info about a user. Provide username.
+        
+        Args:
+            username (str): The user's username desired to edit info about
+            
+        Raises:
+            NoInfoProvided if no username was given
+            
+        Will ask for input!
         """
 
         if username is None:
@@ -252,6 +316,11 @@ class MockEngineMain:
     def SetParentalUser(username: str):
         """
         Set a parental user for users under 18
+        
+        Args:
+            username (str): The user's username you want to set a parent for
+        
+        Will ask for input!
         """
         
         if username is None:
