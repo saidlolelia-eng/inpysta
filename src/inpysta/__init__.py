@@ -31,7 +31,7 @@ PrintInfo(username)             Prints info (e.g. Username, userage..) about the
 
 What is inPysta?
 inPySta is a Python library that simulates Instagram. You can follow, unfollow and much more.
-Since this is still v1.0.2, no posts have been added. Maybe in v5.0.0, we'll have posts.
+Since this is still v1.0.3, no posts have been added. Maybe in v5.0.0, we'll have posts.
 
 inPySta is just a project, made for fun. Not professional. Just a project you'd make at 3.00 AM, for
 no absolutely no reason. Here's some test code:
@@ -57,7 +57,7 @@ print(engine.ViewUsers())
 # Authored by "Elijah J." 
 # NOTE Thanks for using inPySta
 
-_version = "Beta v1.0.3" # MAIN VERSION OF inPySta
+_version = "v1.0.3" # MAIN VERSION OF inPySta
 
 class NotAValidUser(Exception): ... # Errors if someone is not a user
 class AlreadyFollowed(Exception): ... # Errors if someone is already followed
@@ -67,7 +67,7 @@ def _NotAValidUser(user: str=None): raise NotAValidUser(f"Not a valid user: {use
 def _AlreadyFollowed(): raise AlreadyFollowed()
 def _NoInfoProvided(message): raise NoInfoProvided(message)
 
-users = [] # Simulate all users
+users = {} # Simulate all users
 
 class UserProfileAccount: # Create the main User class
     """
@@ -85,20 +85,20 @@ class UserProfileAccount: # Create the main User class
             raise TypeError("Userage must be a valid integer or integer string.")
 
         self.followers = [] # Who follows this user
-        self.followersCount = 0 # How many follow this user
+        self.followersCount = len(self.followers) # How many follow this user
         
         self.follows = [] # people the USER follows
-        self.followsCount = 0
+        self.followsCount = len(self.follows)
         self.parentalUsername = parentalUsername
         
         self.notAdult = True if self.userage < 18 else False
         if self.notAdult:
             print(f"You might want to set up a parental username for {self.username}")
             
-        users.append(self)
+        users[self.username.lower()] = self
                
     def _follow(self, usernameFollowing: str): # Follow this user
-        """Make {usernameFollowing} follow this user"""
+        """Make this user follow the username provided"""
         target_clean = usernameFollowing.strip().lower()
             
         # Find the actual target user object in the database
@@ -152,11 +152,8 @@ class MockEngineMain:
         
     @staticmethod
     def CreateUser(username:str, userage: int | str, parentalUser=None):
-        """
-        Create a new user and store it
-        """
-        
-        if username.lower() in [i.username.lower() for i in users]:
+        """Create a new user and store it"""
+        if username.lower() in users:
             print(f"Registration Error: Username '{username}' is already taken.")
             return None
 
@@ -168,62 +165,52 @@ class MockEngineMain:
             NewUser = UserProfileAccount(username, userage, parentalUser)
             return NewUser
         except Exception as e:
-            __error__ = type(e).__name__
-            print(f"Something went wrong: {__error__}")
+            print(f"Something went wrong: {type(e).__name__}")
         
     @staticmethod
-    def DeleteUser(user:UserProfileAccount):
-        """
-        Remove a user from the database
-        """
-        
-        if not user in users:
-            _NoInfoProvided("Username to delete was not provided.")
+    def DeleteUser(user: UserProfileAccount):
+        """Remove a user from the database"""
+        if not user or user.username.lower() not in users:
+            _NoInfoProvided("Valid user to delete was not provided.")
             return
         
         try:
-            users.remove(user)
+            del users[user.username.lower()]
         except Exception as e:
-            __error__ = type(e).__name__
-            print(f"Something went wrong: {__error__}")
+            print(f"Something went wrong: {type(e).__name__}")
         
     @staticmethod
     def ViewUsers() -> list:
-        """
-        View all the users in the database
-        """
-        print(users)
-        return users
+        """View all the usernames in the database"""
+        all_users = list(users.values())
+        print(all_users)
+        return all_users
     
     @staticmethod
     def PrintInfo(username):
-        """
-        Prints info about the provided username
-        """
-        
+        """Prints info about the provided username"""
         if username is None:
             _NoInfoProvided("Username not provided")
+            return
         
-        if username.lower() not in [i.username.lower() for i in users]:
+        user = users.get(username.lower())
+        if not user:
             _NotAValidUser(username)
             return
 
+        print("**********************************")
+        print(f"Info about '{user.username}':")
+        print("**********************************")
+        print(f"    Username: {user.username}")
+        print(f"    Age: {user.userage}")
+        print(f"    Parental User: {f'Enabled (\'{user.parentalUsername}\')' if user.parentalUsername else 'Disabled'}")
+        print()
+        print(f"    Followers: {user.followers}")
+        print(f"    Follow Count: {user.followersCount}")
+        print(f"    Following: {user.follows}")
+        print(f"    Following Count: {user.followsCount}")
+        print("***********************************************")
         
-        for i in users:
-            if i.username.lower() == username.lower():
-                print("**********************************")
-                print(f"Info about '{i.username}':")
-                print("**********************************")
-                print(f"    Username: {i.username}")
-                print(f"    Age: {i.userage}")
-                print(f"    Parental User: {f'Enabled (\'{i.parentalUsername}\')' if i.parentalUsername else 'Disabled'}")
-                print()
-                print(f"    Followers: {i.followers}")
-                print(f"    Follow Count: {i.followersCount}")
-                print(f"    Following: {i.follows}")
-                print(f"    Following Count: {i.followsCount}")
-                print("***********************************************")
-                
     @staticmethod
     def EditInfo(username: str):
         """
