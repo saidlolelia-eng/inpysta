@@ -1,9 +1,10 @@
-# 📸 InPySta (v1.0.3)
+# 📸 InPySta (v1.0.4)
 
 > A lightweight, highly custom Python library that simulates an Instagram database engine. Built for fun, experimentation, and mock backend practice!
 
 # Latest Update
-Made InPySta faster by using O(1) instead of O(n)!
+Made InPySta faster by using O(1) instead of O(n)! Added
+better explanations.
 
 ---
 

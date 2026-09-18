@@ -14,7 +14,7 @@ How To Use
     4. add: 'Engine = MockEngineMain("MyEngine") # you can name it whatever
     5. Now, run anything you want.
     
-COMMANDS BASED OFF OF v1.0.3
+COMMANDS BASED OFF OF v1.0.4
 
 CreateUser(username, userage)   Creates a user with credentials.
 DeleteUser(username)            Deletes a user
@@ -31,7 +31,7 @@ PrintInfo(username)             Prints info (e.g. Username, userage..) about the
 
 What is inPysta?
 inPySta is a Python library that simulates Instagram. You can follow, unfollow and much more.
-Since this is still v1.0.3, no posts have been added. Maybe in v5.0.0, we'll have posts.
+Since this is still v1.0.4, no posts have been added. Maybe in v5.0.0, we'll have posts.
 
 inPySta is just a project, made for fun. Not professional. Just a project you'd make at 3.00 AM, for
 no absolutely no reason. Here's some test code:
@@ -57,7 +57,7 @@ print(engine.ViewUsers())
 # Authored by "Elijah J." 
 # NOTE Thanks for using inPySta
 
-_version = "v1.0.3" # MAIN VERSION OF inPySta
+_version = "v1.0.4" # MAIN VERSION OF inPySta
 
 class NotAValidUser(Exception): ... # Errors if someone is not a user
 class AlreadyFollowed(Exception): ... # Errors if someone is already followed
@@ -142,12 +142,16 @@ class UserProfileAccount: # Create the main User class
             return
         
     def __repr__(self):
-        """Tells Python exactly how to print this object in lists and consoles."""
         return f"'{self.username}'"
 
-class MockEngineMain:
+class InPyStaEngine:
     """
-    The main engine. Set a title
+    The main engine.
+    
+    Example:
+        >>> app = InPyStaEngine() # Begin the engine simulation
+        >>> myUser = app.CreateUser("admin", 15) # Create a user named admin with age 15
+        >>> app.DeleteUser(myUser.username) # Deletes the user
     """
     def __init__(self, title: str):
         self.engine = "Mock Engine" if title is None else title
