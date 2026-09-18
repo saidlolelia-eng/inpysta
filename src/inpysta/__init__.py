@@ -1,6 +1,6 @@
 """
 This project library is not to be claimed as your own. To use it, add credit
-and acknowledgement of PySta. This library, as it is open-source, should be credited.
+and acknowledgement of inPySta. This library, as it is open-source, should be credited.
 
 C 2026 inPySta Dev.
 
@@ -54,7 +54,7 @@ print(engine.ViewUsers())
 
 """
 
-# Authored by "Elia Jebreen" 
+# Authored by "Elijah J." 
 # NOTE Thanks for using inPySta
 
 _version = "Beta v1.0.2" # MAIN VERSION OF inPySta
@@ -304,4 +304,4 @@ def main(): # Won't run if you're using the library
 if __name__ == "__main__":
     main()
 else:
-    print(f"Running PySta {_version}")
+    print(f"Running inPySta {_version}")

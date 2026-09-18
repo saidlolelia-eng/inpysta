@@ -72,4 +72,4 @@ When you save a user object via `my_user = engine.CreateUser(...)`, you unlock i
 ## 🛡️ License & Acknowledgement
 This library is open-source. To use it in your own external projects or modifications, please add clear credit and acknowledgement back to **InPySta**. 
 
-**© 2026 InPySta Dev Studio.** authored by *Elia Jebreen*.
+**© 2026 InPySta Dev Studio.** authored by *Elijah J.*.
